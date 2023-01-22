@@ -357,7 +357,7 @@
     background-color: #e4dbc8;
     border: 7px solid black;
     border-radius: 10px 10px 10px 10px;
-    z-index: 1000;
+    z-index: 15;
     position: absolute;
     top: 330%;
     left: 50%;
