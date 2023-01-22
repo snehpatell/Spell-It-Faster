@@ -17,7 +17,7 @@ window.onload = () => {
         transition_el.classList.add('is-active')
 
         setTimeout(() => {
-            window.location.href = "C:/Users/snehp/OneDrive/Desktop/Sneh Programs/Spell-it Faster/play.html"
+            window.location.href = "/play.html"
         },500)
     })
     
@@ -26,7 +26,7 @@ window.onload = () => {
         transition_el.classList.add('is-active')
 
         setTimeout(() => {
-            window.location.href = "C:/Users/snehp/OneDrive/Desktop/Sneh Programs/Spell-it Faster/bio.html"
+            window.location.href = "/bio.html"
         },500)
     })
 
@@ -35,7 +35,7 @@ window.onload = () => {
         transition_el.classList.add('is-active')
 
         setTimeout(() => {
-            window.location.href = "C:/Users/snehp/OneDrive/Desktop/Sneh Programs/Spell-it Faster/controls.html"
+            window.location.href = "/controls.html"
         },500)
     })
 
@@ -44,7 +44,7 @@ window.onload = () => {
         transition_el.classList.add('is-active')
 
         setTimeout(() => {
-            window.location.href = "C:/Users/snehp/OneDrive/Desktop/Sneh Programs/Spell-it Faster/credits.html"
+            window.location.href = "/credits.html"
         },500)
     })
 }
