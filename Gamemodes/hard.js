@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", () => {
   })
 
   function gameOn(){
-    var score = 127
+    var score = 0
     var score2 = 0
     var speed = 1500
     document.getElementById("scoreSpan").innerHTML = " " + score
