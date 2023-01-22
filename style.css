@@ -322,7 +322,7 @@ html, body {
 
 @font-face {
   font-family: "pasti";
-  src: url("./Fonts/journeyman-line-webfont.woff") format("woff");
+  src: url("/Spell-It-Faster/Fonts/journeyman-line-webfont.woff") format("woff");
 }
 
 .menu {
