@@ -196,6 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
     var position = 0;
     var where = -1
     function update() {
+      increaseSpeed(interval2)
       if (!checkCollision('down')) {
         moveWord('down');
         where++
@@ -262,7 +263,6 @@ document.addEventListener("DOMContentLoaded", () => {
             score = score + (5 - where)
             score2 = score2 + (5 - where)
 
-            increaseSpeed(interval2)
             console.log(5 - where)
             position = 0
             board[where] = [0,0,0,0]
@@ -424,7 +424,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function increaseSpeed(intervalId) {
-      if (score2 >= 30 && speed >= 500) {
+      if (score2 >= 4 && speed >= 500) {
         speed -= 25;
         clearInterval(intervalId);
         intervalId = setInterval(update, speed);
