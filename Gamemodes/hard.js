@@ -501,7 +501,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function increaseSpeed(intervalId) {
-      if (score2 >= 4 && speed >= 750) {
+      if (score2 >= 30 && speed >= 750) {
         speed -= 25;
         clearInterval(intervalId);
         intervalId = setInterval(update, speed);
