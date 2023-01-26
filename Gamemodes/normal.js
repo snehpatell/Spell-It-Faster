@@ -243,18 +243,42 @@ document.addEventListener("DOMContentLoaded", () => {
     
     var ifWrong = false;
     document.addEventListener("keypress", function(e) {
-      if (e.key === curWord[position].toLowerCase()) {
-        document.getElementById("block" + (((where)*5)+position)).classList.remove("filled")
-        document.getElementById("block" + (((where)*5)+position)).classList.add("filledGreen")
-        position++
-        temp2 = 0
-        if (position == 5){
-          for (let i = 0; i < board.length; i++) {
-            for (let j = 0; j < board[i].length; j++) {
-              document.getElementById("block" + ((i*5)+j)).classList.remove("filledGreen")
-              document.getElementById("block" + ((i*5)+j)).classList.add("block")
+      if (e.keyCode != 13){
+        if (e.key === curWord[position].toLowerCase()) {
+          document.getElementById("block" + (((where)*5)+position)).classList.remove("filled")
+          document.getElementById("block" + (((where)*5)+position)).classList.add("filledGreen")
+          position++
+          temp2 = 0
+          if (position == 5){
+            for (let i = 0; i < board.length; i++) {
+              for (let j = 0; j < board[i].length; j++) {
+                document.getElementById("block" + ((i*5)+j)).classList.remove("filledGreen")
+                document.getElementById("block" + ((i*5)+j)).classList.add("block")
+              }
             }
+            var temp3 = 0
+            while (temp3 < 5){
+              document.getElementById("block" + ((where*5)+temp3)).classList.remove("filled")
+              document.getElementById("block" + ((where*5)+temp3)).classList.add("block")
+              document.getElementById("block" + ((where*5)+temp3)).innerHTML = ""
+              temp3++
+            }
+            score = score + (5 - where)
+            score2 = score2 + (5 - where)
+
+            increaseSpeed(interval2)
+            console.log(5 - where)
+            position = 0
+            board[where] = [0,0,0,0,0]
+            console.log(board)
+            where = 0
+            currentPosition = [0, 0];
+            curWord = wordList[Math.floor(Math.random()*wordList.length)]
+            document.getElementById("scoreSpan").innerHTML = " " + score
+            drawWordBlock()
           }
+        } else {
+          ifWrong = true;
           var temp3 = 0
           while (temp3 < 5){
             document.getElementById("block" + ((where*5)+temp3)).classList.remove("filled")
@@ -262,40 +286,18 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("block" + ((where*5)+temp3)).innerHTML = ""
             temp3++
           }
-          score = score + (5 - where)
-          score2 = score2 + (5 - where)
-
-          increaseSpeed(interval2)
-          console.log(5 - where)
-          position = 0
-          board[where] = [0,0,0,0,0]
-          console.log(board)
-          where = 0
-          currentPosition = [0, 0];
-          curWord = wordList[Math.floor(Math.random()*wordList.length)]
-          document.getElementById("scoreSpan").innerHTML = " " + score
-          drawWordBlock()
-        }
-      } else {
-        ifWrong = true;
-        var temp3 = 0
-        while (temp3 < 5){
-          document.getElementById("block" + ((where*5)+temp3)).classList.remove("filled")
-          document.getElementById("block" + ((where*5)+temp3)).classList.add("block")
-          document.getElementById("block" + ((where*5)+temp3)).innerHTML = ""
-          temp3++
-        }
-        for (var i = 0; i < board.length; i++) {
-          for (let j = 0; j < board[i].length; j++) {
-            if (document.getElementById(("block" + ((i*5)+j))).classList.contains("filledGreen")){
-              document.getElementById("block" + ((i*5)+j)).classList.remove("filledGreen")
-              updateBoard()              
+          for (var i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[i].length; j++) {
+              if (document.getElementById(("block" + ((i*5)+j))).classList.contains("filledGreen")){
+                document.getElementById("block" + ((i*5)+j)).classList.remove("filledGreen")
+                updateBoard()              
+              }
             }
           }
+          position = 0
+          board[where] = [0,0,0,0,0]
+          where = 0
         }
-        position = 0
-        board[where] = [0,0,0,0,0]
-        where = 0
       }
     });
 
