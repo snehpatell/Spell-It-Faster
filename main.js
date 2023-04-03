@@ -54,7 +54,7 @@ window.onload = () => {
         transition_el.classList.add('is-active')
 
         setTimeout(() => {
-            window.location.href = "C:/Users/snehp/OneDrive/Desktop/Sneh Programs/Spell-it Faster/leaderboard.html"
+            window.location.href = "/leaderboard.html"
         },500)
     })
 }
