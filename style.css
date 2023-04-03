@@ -322,13 +322,13 @@ html, body {
 
 @font-face {
   font-family: "pasti";
-  src: url("/Fonts/journeyman-line-webfont.woff") format("woff");
+  src: url("C:/Users/snehp/OneDrive/Desktop/Sneh Programs/Spell-it Faster/Fonts/journeyman-line-webfont.woff") format("woff");
 }
 
 .menu {
   position: absolute;
   left: 50%;
-  bottom: -10%;
+  bottom: -20%;
   text-align: center;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -337,6 +337,7 @@ html, body {
   color: beige;
   z-index: 10;
   user-select: none;
+  scale: .9;
 }
 
 .play {
@@ -406,7 +407,7 @@ html, body {
 
 .credits {
   z-index: 11;
-  animation: 3.5s ease-out 0s 1 fade1;
+  animation: 4s ease-out 0s 1 fade1;
 }
 #creditsGroup {
   margin-top: 10px;
@@ -421,6 +422,27 @@ html, body {
   background: radial-gradient(ellipse at center, rgb(146, 140, 140), transparent, transparent);
 }
 #credits:hover + #oval4{
+  opacity: 100%;
+  background: radial-gradient(ellipse at center, rgb(146, 140, 140), transparent, transparent);
+}
+
+.leaderboards {
+  z-index: 11;
+  animation: 3.5s ease-out 0s 1 fade1;
+}
+#leaderGroup {
+  margin-top: 10px;
+}
+#leaderGroup:hover {
+  z-index: 11;
+  animation: .3s ease-in-out 0s 1 bigger1;
+  animation-fill-mode:forwards;
+}
+#oval4:hover{
+  opacity: 100%;
+  background: radial-gradient(ellipse at center, rgb(146, 140, 140), transparent, transparent);
+}
+#leaderboards:hover + #oval4{
   opacity: 100%;
   background: radial-gradient(ellipse at center, rgb(146, 140, 140), transparent, transparent);
 }
