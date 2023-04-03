@@ -7,6 +7,7 @@ window.onload = () => {
     const bio = document.getElementById('bioGroup')
     const controls = document.getElementById('controlsGroup')
     const credits = document.getElementById('creditsGroup')
+    const leaderboard = document.getElementById('leaderGroup')
 
     setTimeout(() => {
         transition_el.classList.remove('is-active')
@@ -45,6 +46,15 @@ window.onload = () => {
 
         setTimeout(() => {
             window.location.href = "/credits.html"
+        },500)
+    })
+    
+    leaderboard.addEventListener('click', e => {
+        e.preventDefault()
+        transition_el.classList.add('is-active')
+
+        setTimeout(() => {
+            window.location.href = "C:/Users/snehp/OneDrive/Desktop/Sneh Programs/Spell-it Faster/leaderboard.html"
         },500)
     })
 }
