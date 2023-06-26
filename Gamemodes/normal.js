@@ -356,7 +356,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (ifWrong){
         oldCurPos = currentPosition
         currentPosition = [5-bottomED, 0]
-        update()
         ifWrong = false
       }
       if (bottomED >= 6){
@@ -428,11 +427,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function increaseSpeed(intervalId) {
-      if (score2 >= 30 && speed >= 500) {
+      if (score2 >= 10 && speed >= 250) {
         speed -= 25;
-        clearInterval(intervalId);
-        intervalId = setInterval(update, speed);
+        console.log(speed)
         score2 = 0
+        clearInterval(intervalId)
+        interval2 = setInterval(update, speed);
       }
     }
 
