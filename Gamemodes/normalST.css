@@ -468,3 +468,211 @@
     text-align: center;
     line-height: 65px;
   }
+
+.heart {
+    position: relative;
+    width: 100px;
+    height: 90px;
+    margin-top: 10px;
+    scale: 3;
+    position: absolute;
+    top: 50%;
+    left: -48%;
+    margin: -25px 0 0 -25px;
+    z-index: 1001;
+    ;
+  }
+  
+  .heart::before, .heart::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 52px;
+    height: 80px;
+    border-radius: 50px 50px 0 0;
+    background: red;
+    border: 5px solid black
+  }
+  
+  .heart::before {
+    left: 50px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+  
+  .heart::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+  }
+  
+  @keyframes heart-enter {
+    0% {
+      left: -48%;
+      opacity: 1;
+      transform: rotate(-360deg);
+    }
+    50% {
+      left: 48%;
+      opacity: 1;
+      transform: rotate(360deg);
+      scale: 3;
+    }
+    52% {
+      left: 48%;
+      opacity: 1;
+      transform: rotate(360deg);
+      scale: 4;
+    }
+    55% {
+      left: 48%;
+      opacity: 1;
+      transform: rotate(360deg);
+      scale: 3;
+    }
+    100% {
+      left: 148%;
+      opacity: 1;
+      transform: rotate(720deg);
+    }
+  } 
+  @keyframes heart-spin {
+    0% {
+      transform: rotate(-360deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .heartBG {
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+    position: relative;
+    background-color: black;
+    opacity: 0;
+  }
+  @keyframes heart-BG {
+    0% {
+      opacity: 0
+    }
+    50% {
+      opacity: .7
+    }
+    52% {
+      opacity: .7
+    }
+    55% {
+      opacity: .7
+    }
+    100% {
+      opacity: 0
+    }
+  }
+  
+  .heart2 {
+    position: relative;
+    width: 100px;
+    height: 90px;
+    margin-top: 10px;
+    scale: 1;
+    position: absolute;
+    top: 5%;
+    left: 4%;
+    margin: -25px 0 0 -25px;
+    z-index: 1001;
+  }
+  
+  .heart2::before, .heart2::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 52px;
+    height: 80px;
+    border-radius: 50px 50px 0 0;
+    background: red;
+    border: 5px solid black
+  }
+  
+  .heart2::before {
+    left: 50px;
+    transform: rotate(-45deg);
+    transform-origin: 0 100%;
+  }
+  
+  .heart2::after {
+    left: 0;
+    transform: rotate(45deg);
+    transform-origin: 100% 100%;
+  }
+  
+  .heartMSG {
+    font-family: "pasti";
+    font-size: 40pt;
+    color: red;
+    position: absolute;
+    top: 65%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    text-shadow: 2px 0 #ffffff, -2px 0 #ffffff, 0 2px #ffffff, 0 -2px #ffffff,
+                 1px 1px #ffffff, -1px -1px #ffffff, 1px -1px #ffffff, -1px 1px #ffffff;
+  }
+  
+  .crushMSG {
+    font-family: "pasti";
+    font-size: 40pt;
+    color: black;
+    position: absolute;
+    top: 65%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    text-shadow: 2px 0 #ffffff, -2px 0 #ffffff, 0 2px #ffffff, 0 -2px #ffffff,
+                 1px 1px #ffffff, -1px -1px #ffffff, 1px -1px #ffffff, -1px 1px #ffffff;
+  }
+  
+  .slowMSG {
+    font-family: "pasti";
+    font-size: 40pt;
+    color: rgb(57, 44, 177);
+    position: absolute;
+    top: 65%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    text-shadow: 2px 0 #ffffff, -2px 0 #ffffff, 0 2px #ffffff, 0 -2px #ffffff,
+                 1px 1px #ffffff, -1px -1px #ffffff, 1px -1px #ffffff, -1px 1px #ffffff;
+  }
+  
+  .multiplyerMSG {
+    font-family: "pasti";
+    font-size: 30pt;
+    color: rgb(9, 104, 40);
+    position: absolute;
+    top: 65%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    text-shadow: 2px 0 #ffffff, -2px 0 #ffffff, 0 2px #ffffff, 0 -2px #ffffff,
+                 1px 1px #ffffff, -1px -1px #ffffff, 1px -1px #ffffff, -1px 1px #ffffff;
+  }
+  
+  .multiplyer2 {
+    position: relative;
+    width: 100px;
+    height: 90px;
+    margin-top: 10px;
+    scale: 1;
+    position: absolute;
+    top: 1%;
+    left: 11%;
+    margin: -25px 0 0 -25px;
+    z-index: 1001;
+    font-family: "pasti";
+    font-size: 75pt;
+    color: aquamarine;
+    text-shadow: 2px 0 #ffffff, -2px 0 #ffffff, 0 2px #ffffff, 0 -2px #ffffff,
+                 1px 1px #ffffff, -1px -1px #ffffff, 1px -1px #ffffff, -1px 1px #ffffff;
+  }
