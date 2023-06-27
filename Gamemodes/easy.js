@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", () => {
         [0,0,0,0],
         [0,0,0,0]
     ]
-
+    console.log("god did 5")
     // Function for the board to be made dynamically through JS into HTML
     function createBoard() {
       var temp = 0 // Temporary variable
