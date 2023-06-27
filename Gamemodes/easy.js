@@ -74,14 +74,28 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   })
 
+    // Function to start the game (called once you press "enter")
   function gameOn(){
+    // 2 Score variables; 1st used for actual score- 2nd used for speed increase
     var score = 0
     var score2 = 0
+    // Number of words correct in a row
+    var numRightRow = 0;
+    // Score multipler
+    var multipler = 1
+    // Extra Life Count
+    var extraLife = 0
+
+    // Variable for speed (in milliseconds) at which the board is updated
+    // (in this case 1000 milliseconds every update or 1 second [ramps up as game progresses])
     var speed = 1000
-    document.getElementById("scoreSpan").innerHTML = " " + score
-    var curWord = wordList[Math.floor(Math.random()*wordList.length)]
-    var wordCount = []
-    var grid = document.getElementById("grid")
+    document.getElementById("scoreSpan").innerHTML = " " + score // Initializes the score to be 0 on the screen
+
+    var curWord = wordList[Math.floor(Math.random()*wordList.length)] // Picks a random word from the word list (list of 4 letter words)
+    var wordCount = [] // Keeps track of words that were lost
+    var grid = document.getElementById("grid") // Initializes/Obtains the "grid" div from the HTML code for JS
+
+    // Initial creation of the board as JS (with nothing on it)
     var board = [
         [0,0,0,0],
         [0,0,0,0],
@@ -91,20 +105,27 @@ document.addEventListener("DOMContentLoaded", () => {
         [0,0,0,0]
     ]
 
+    // Function for the board to be made dynamically through JS into HTML
     function createBoard() {
-      var temp = 0
+      var temp = 0 // Temporary variable
+
+        // Loops though every object in "board" array above
         for (i = 0; i < board.length; i++){
             for (u = 0; u < board[i].length; u++){
+                // Create a 'div' in HTML, give it the class "block" and give it a custom name:
+                // "block + which ever block #"
                 var block = document.createElement('div')
                 block.classList.add('block')
                 block.setAttribute("id", "block" + temp)
                 temp++
+
+                // Appends the newly created block to the grid 'div' for the actual board
                 grid.appendChild(block);
             }
         }
     }
 
-    // Current tetromino
+    // Current word
     let staticWord = [[1, 1, 1, 1]];
     let currentPosition = [0, 0];
 
@@ -144,7 +165,18 @@ document.addEventListener("DOMContentLoaded", () => {
         let temp1 = 0
         for (let i = 0; i < board.length; i++) {
           for (let j = 0; j < board[i].length; j++) {
-            if (board[i][j] === 1) {
+            if (board[i][j] === 0){
+              document.getElementById("block" + temp1).innerHTML = ""
+              block[index].classList.add('block');
+              block[index].classList.remove('filled');
+              block[index].classList.remove('bottom1');
+              block[index].classList.remove('bottom2');
+              block[index].classList.remove('bottom3');
+              block[index].classList.remove('bottom4');
+              block[index].classList.remove('bottom5');
+              block[index].classList.remove('bottom6');
+            }
+            else if (board[i][j] === 1) {
                 block[index].classList.add('filled');
                 document.getElementById("block" + temp1).innerHTML = curWord[j]
             } else if (board[i][j] === 2) {
@@ -184,6 +216,8 @@ document.addEventListener("DOMContentLoaded", () => {
           if (staticWord[i][j]) {
             // Check for collisions with the bottom of the board
             if (direction === 'down' && currentPosition[0] + i + 1 === board.length - bottomED) {
+              console.log(currentPosition[0])
+              console.log(board.length - bottomED)
               return true;
             }
           }
@@ -200,6 +234,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!checkCollision('down')) {
         moveWord('down');
         where++
+
         for (var i = 0; i < board.length; i++) {
           for (let j = 0; j < board[i].length; j++) {
             if (document.getElementById(("block" + ((i*4)+j))).classList.contains("filledGreen")){
@@ -260,13 +295,12 @@ document.addEventListener("DOMContentLoaded", () => {
               document.getElementById("block" + ((where*4)+temp3)).innerHTML = ""
               temp3++
             }
-            score = score + (5 - where)
+            score = score + ((5 - where)*multipler)
             score2 = score2 + (5 - where)
+            handleCorrectWord()
 
-            console.log(5 - where)
             position = 0
             board[where] = [0,0,0,0]
-            console.log(board)
             where = 0
             currentPosition = [0, 0];
             curWord = wordList[Math.floor(Math.random()*wordList.length)]
@@ -290,6 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
               }
             }
           }
+          numRightRow = 0
           position = 0
           board[where] = [0,0,0,0]
           where = 0
@@ -350,11 +385,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function checkCorrect() {
       if (ifWrong){
-        oldCurPos = currentPosition
         currentPosition = [5-bottomED, 0]
         ifWrong = false
       }
-      if (bottomED >= 6){
+      if (bottomED >= 6 && extraLife == 1){
+        clearInterval(interval2)
+        document.getElementById("heart2").style.opacity = "0"
+        document.getElementById("heart").style.animation = "heart-enter 4s linear"
+        document.getElementById("heart").style.animationFillMode = "forward"
+        document.getElementById("heartBG").style.animation = "heart-BG 4s linear"
+        document.getElementById("heartBG").style.animationFillMode = "forward"
+
+        setTimeout(() => {
+          interval2 = setInterval(update, speed);
+        }, 2500);
+        board = [
+          [0,0,0,0],
+          [0,0,0,0],
+          [0,0,0,0],
+          [0,0,0,0],
+          [3,3,3,3],
+          [2,2,2,2]
+        ]
+        bottomED = 2
+        wordCount.pop()
+        wordCount.pop()
+        wordCount.pop()
+        wordCount.pop()
+        updateBoard()
+        extraLife = -99999999
+      } else if (bottomED >= 6){
+        document.getElementById("heartBG").remove()
         clearInterval(interval1)
         clearInterval(interval2)
         clearInterval(interval3)
@@ -425,10 +486,88 @@ document.addEventListener("DOMContentLoaded", () => {
     function increaseSpeed(intervalId) {
       if (score2 >= 10 && speed >= 250) {
         speed -= 25;
-        console.log(speed)
         score2 = 0
         clearInterval(intervalId)
         interval2 = setInterval(update, speed);
+      }
+    }
+
+    function increaseSpeed(intervalId) {
+      if (score2 >= 10 && speed >= 250) {
+        speed -= 25;
+        score2 = 0
+        clearInterval(intervalId)
+        interval2 = setInterval(update, speed);
+      }
+    }
+
+    //
+    const POWER_UP_TYPES = {
+      REMOVE_TOP_LINE: 'remove_top_line',
+      SLOW_TIME: 'slow_time',
+      POINT_MULTIPLYER: 'point_multiplyer',
+      EXTRA_LIFE: 'extra_life'
+    };
+
+    function getRandomPowerUp() {
+      const powerUpKeys = Object.keys(POWER_UP_TYPES);
+      const randomIndex = Math.floor(Math.random() * powerUpKeys.length);
+      const randomPowerUpKey = powerUpKeys[randomIndex];
+      const randomPowerUp = POWER_UP_TYPES[randomPowerUpKey];
+      return randomPowerUp;
+    }
+
+    function activatePowerUp(type) {
+      if (type === POWER_UP_TYPES.REMOVE_TOP_LINE) {
+        board[6 - bottomED] = [0,0,0,0]
+        bottomED--
+        wordCount.pop()
+        updateBoard()
+        document.getElementById("crushMSG").style.opacity = "1"
+          setTimeout(function(){
+            document.getElementById("crushMSG").style.opacity = "0"
+          },2000)
+      } else if (type === POWER_UP_TYPES.SLOW_TIME) {
+        speed += 200;
+        clearInterval(interval2)
+        interval2 = setInterval(update, speed);
+        document.getElementById("slowMSG").style.opacity = "1"
+          setTimeout(function(){
+            document.getElementById("slowMSG").style.opacity = "0"
+          },2000)
+      } else if (type === POWER_UP_TYPES.POINT_MULTIPLYER) {
+        multipler = 2
+        setTimeout(function(){
+          multipler = 1
+        },5000)
+        document.getElementById("multiplyerMSG").style.opacity = "1"
+        document.getElementById("twox").style.opacity = "1"
+          setTimeout(function(){
+            document.getElementById("multiplyerMSG").style.opacity = "0"
+          },2000)
+          setTimeout(function(){
+            document.getElementById("twox").style.opacity = "0"
+          },5000)
+      } else if (type === POWER_UP_TYPES.EXTRA_LIFE) {
+        if (extraLife == 0){
+          extraLife++
+          console.log("second")
+          document.getElementById("heart2").style.opacity = "1"
+          document.getElementById("heartMSG").style.opacity = "1"
+          setTimeout(function(){
+            document.getElementById("heartMSG").style.opacity = "0"
+          },2000)
+
+        } else {activatePowerUp(getRandomPowerUp())}
+      }
+    }
+
+    function handleCorrectWord() {
+      numRightRow++;
+    
+      if (numRightRow === 3 && bottomED > 0) {
+        activatePowerUp(getRandomPowerUp());
+        numRightRow = 0;
       }
     }
 
