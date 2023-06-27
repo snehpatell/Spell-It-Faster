@@ -174,7 +174,7 @@ document.addEventListener("DOMContentLoaded", () => {
         [0,0,0,0,0,0,0,0],
         [0,0,0,0,0,0,0,0],
     ]
-
+    console.log("god did 6")
     function createBoard() {
       var temp = 0
         for (i = 0; i < board.length; i++){
