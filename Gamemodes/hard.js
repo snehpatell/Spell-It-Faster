@@ -475,6 +475,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateBoard()
         extraLife = -99999999
       } else if (bottomED >= 6){
+        document.getElementById("heartBG").remove()
         clearInterval(interval1)
         clearInterval(interval2)
         clearInterval(interval3)
