@@ -81,6 +81,13 @@ document.addEventListener("DOMContentLoaded", () => {
   function gameOn(){
     var score = 0
     var score2 = 0
+    // Number of words correct in a row
+    var numRightRow = 0;
+    // Score multipler
+    var multipler = 1
+    // Extra Life Count
+    var extraLife = 0
+
     var speed = 1000
     document.getElementById("scoreSpan").innerHTML = " " + score
     var curWord = wordList[Math.floor(Math.random()*wordList.length)]
@@ -148,7 +155,18 @@ document.addEventListener("DOMContentLoaded", () => {
         let temp1 = 0
         for (let i = 0; i < board.length; i++) {
           for (let j = 0; j < board[i].length; j++) {
-            if (board[i][j] === 1) {
+            if (board[i][j] === 0){
+              document.getElementById("block" + temp1).innerHTML = ""
+              block[index].classList.add('block');
+              block[index].classList.remove('filled');
+              block[index].classList.remove('bottom1');
+              block[index].classList.remove('bottom2');
+              block[index].classList.remove('bottom3');
+              block[index].classList.remove('bottom4');
+              block[index].classList.remove('bottom5');
+              block[index].classList.remove('bottom6');
+            }
+            else if (board[i][j] === 1) {
                 block[index].classList.add('filled');
                 document.getElementById("block" + temp1).innerHTML = curWord[j]
             } else if (board[i][j] === 2) {
@@ -200,7 +218,6 @@ document.addEventListener("DOMContentLoaded", () => {
     var position = 0;
     var where = -1
     function update() {
-      increaseSpeed(interval2)
       if (!checkCollision('down')) {
         moveWord('down');
         where++
@@ -244,41 +261,18 @@ document.addEventListener("DOMContentLoaded", () => {
     
     var ifWrong = false;
     document.addEventListener("keypress", function(e) {
-      if (e.keyCode != 13){
-        if (e.key === curWord[position].toLowerCase()) {
-          document.getElementById("block" + (((where)*5)+position)).classList.remove("filled")
-          document.getElementById("block" + (((where)*5)+position)).classList.add("filledGreen")
-          position++
-          temp2 = 0
-          if (position == 5){
-            for (let i = 0; i < board.length; i++) {
-              for (let j = 0; j < board[i].length; j++) {
-                document.getElementById("block" + ((i*5)+j)).classList.remove("filledGreen")
-                document.getElementById("block" + ((i*5)+j)).classList.add("block")
-              }
+      if (e.key === curWord[position].toLowerCase()) {
+        document.getElementById("block" + (((where)*5)+position)).classList.remove("filled")
+        document.getElementById("block" + (((where)*5)+position)).classList.add("filledGreen")
+        position++
+        temp2 = 0
+        if (position == 5){
+          for (let i = 0; i < board.length; i++) {
+            for (let j = 0; j < board[i].length; j++) {
+              document.getElementById("block" + ((i*5)+j)).classList.remove("filledGreen")
+              document.getElementById("block" + ((i*5)+j)).classList.add("block")
             }
-            var temp3 = 0
-            while (temp3 < 5){
-              document.getElementById("block" + ((where*5)+temp3)).classList.remove("filled")
-              document.getElementById("block" + ((where*5)+temp3)).classList.add("block")
-              document.getElementById("block" + ((where*5)+temp3)).innerHTML = ""
-              temp3++
-            }
-            score = score + (5 - where)
-            score2 = score2 + (5 - where)
-
-            console.log(5 - where)
-            position = 0
-            board[where] = [0,0,0,0,0]
-            console.log(board)
-            where = 0
-            currentPosition = [0, 0];
-            curWord = wordList[Math.floor(Math.random()*wordList.length)]
-            document.getElementById("scoreSpan").innerHTML = " " + score
-            drawWordBlock()
           }
-        } else {
-          ifWrong = true;
           var temp3 = 0
           while (temp3 < 5){
             document.getElementById("block" + ((where*5)+temp3)).classList.remove("filled")
@@ -286,18 +280,42 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("block" + ((where*5)+temp3)).innerHTML = ""
             temp3++
           }
-          for (var i = 0; i < board.length; i++) {
-            for (let j = 0; j < board[i].length; j++) {
-              if (document.getElementById(("block" + ((i*5)+j))).classList.contains("filledGreen")){
-                document.getElementById("block" + ((i*5)+j)).classList.remove("filledGreen")
-                updateBoard()              
-              }
-            }
-          }
+          score = score + ((5 - where)*multipler)
+          score2 = score2 + (5 - where)
+          handleCorrectWord()
+
+          increaseSpeed(interval2)
+          console.log(5 - where)
           position = 0
           board[where] = [0,0,0,0,0]
+          console.log(board)
           where = 0
+          currentPosition = [0, 0];
+          curWord = wordList[Math.floor(Math.random()*wordList.length)]
+          document.getElementById("scoreSpan").innerHTML = " " + score
+          drawWordBlock()
         }
+      } else {
+        ifWrong = true;
+        var temp3 = 0
+        while (temp3 < 5){
+          document.getElementById("block" + ((where*5)+temp3)).classList.remove("filled")
+          document.getElementById("block" + ((where*5)+temp3)).classList.add("block")
+          document.getElementById("block" + ((where*5)+temp3)).innerHTML = ""
+          temp3++
+        }
+        for (var i = 0; i < board.length; i++) {
+          for (let j = 0; j < board[i].length; j++) {
+            if (document.getElementById(("block" + ((i*5)+j))).classList.contains("filledGreen")){
+              document.getElementById("block" + ((i*5)+j)).classList.remove("filledGreen")
+              updateBoard()              
+            }
+          }
+        }
+        numRightRow = 0
+        position = 0
+        board[where] = [0,0,0,0,0]
+        where = 0
       }
     });
 
@@ -354,11 +372,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function checkCorrect() {
       if (ifWrong){
-        oldCurPos = currentPosition
         currentPosition = [5-bottomED, 0]
         ifWrong = false
       }
-      if (bottomED >= 6){
+      if (bottomED >= 6 && extraLife == 1){
+        clearInterval(interval2)
+        document.getElementById("heart2").style.opacity = "0"
+        document.getElementById("heart").style.animation = "heart-enter 4s linear"
+        document.getElementById("heart").style.animationFillMode = "forward"
+        document.getElementById("heartBG").style.animation = "heart-BG 4s linear"
+        document.getElementById("heartBG").style.animationFillMode = "forward"
+
+        setTimeout(() => {
+          interval2 = setInterval(update, speed);
+        }, 2500);
+        board = [
+          [0,0,0,0,0],
+          [0,0,0,0,0],
+          [0,0,0,0,0],
+          [0,0,0,0,0],
+          [3,3,3,3,3],
+          [2,2,2,2,2]
+        ]
+        bottomED = 2
+        wordCount.pop()
+        wordCount.pop()
+        wordCount.pop()
+        wordCount.pop()
+        updateBoard()
+        extraLife = -99999999
+      } else if (bottomED >= 6){
         clearInterval(interval1)
         clearInterval(interval2)
         clearInterval(interval3)
@@ -429,10 +472,88 @@ document.addEventListener("DOMContentLoaded", () => {
     function increaseSpeed(intervalId) {
       if (score2 >= 10 && speed >= 250) {
         speed -= 25;
-        console.log(speed)
         score2 = 0
         clearInterval(intervalId)
         interval2 = setInterval(update, speed);
+      }
+    }
+
+    function increaseSpeed(intervalId) {
+      if (score2 >= 10 && speed >= 250) {
+        speed -= 25;
+        score2 = 0
+        clearInterval(intervalId)
+        interval2 = setInterval(update, speed);
+      }
+    }
+
+    //
+    const POWER_UP_TYPES = {
+      REMOVE_TOP_LINE: 'remove_top_line',
+      SLOW_TIME: 'slow_time',
+      POINT_MULTIPLYER: 'point_multiplyer',
+      EXTRA_LIFE: 'extra_life'
+    };
+
+    function getRandomPowerUp() {
+      const powerUpKeys = Object.keys(POWER_UP_TYPES);
+      const randomIndex = Math.floor(Math.random() * powerUpKeys.length);
+      const randomPowerUpKey = powerUpKeys[randomIndex];
+      const randomPowerUp = POWER_UP_TYPES[randomPowerUpKey];
+      return randomPowerUp;
+    }
+
+    function activatePowerUp(type) {
+      if (type === POWER_UP_TYPES.REMOVE_TOP_LINE) {
+        board[6 - bottomED] = [0,0,0,0,0]
+        bottomED--
+        wordCount.pop()
+        updateBoard()
+        document.getElementById("crushMSG").style.opacity = "1"
+          setTimeout(function(){
+            document.getElementById("crushMSG").style.opacity = "0"
+          },2000)
+      } else if (type === POWER_UP_TYPES.SLOW_TIME) {
+        speed += 200;
+        clearInterval(interval2)
+        interval2 = setInterval(update, speed);
+        document.getElementById("slowMSG").style.opacity = "1"
+          setTimeout(function(){
+            document.getElementById("slowMSG").style.opacity = "0"
+          },2000)
+      } else if (type === POWER_UP_TYPES.POINT_MULTIPLYER) {
+        multipler = 2
+        setTimeout(function(){
+          multipler = 1
+        },5000)
+        document.getElementById("multiplyerMSG").style.opacity = "1"
+        document.getElementById("twox").style.opacity = "1"
+          setTimeout(function(){
+            document.getElementById("multiplyerMSG").style.opacity = "0"
+          },2000)
+          setTimeout(function(){
+            document.getElementById("twox").style.opacity = "0"
+          },5000)
+      } else if (type === POWER_UP_TYPES.EXTRA_LIFE) {
+        if (extraLife == 0){
+          extraLife++
+          console.log("second")
+          document.getElementById("heart2").style.opacity = "1"
+          document.getElementById("heartMSG").style.opacity = "1"
+          setTimeout(function(){
+            document.getElementById("heartMSG").style.opacity = "0"
+          },2000)
+
+        } else {activatePowerUp(getRandomPowerUp())}
+      }
+    }
+
+    function handleCorrectWord() {
+      numRightRow++;
+    
+      if (numRightRow === 3 && bottomED > 0) {
+        activatePowerUp(getRandomPowerUp());
+        numRightRow = 0;
       }
     }
 
