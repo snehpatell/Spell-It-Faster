@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         [0,0,0,0,0],
         [0,0,0,0,0],
     ]
-
+    console.log("god did 6")
     function createBoard() {
       var temp = 0
         for (i = 0; i < board.length; i++){
@@ -551,7 +551,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleCorrectWord() {
       numRightRow++;
     
-      if (numRightRow === 3 && bottomED > 0) {
+      if (numRightRow === 10 && bottomED > 0) {
         activatePowerUp(getRandomPowerUp());
         numRightRow = 0;
       }
